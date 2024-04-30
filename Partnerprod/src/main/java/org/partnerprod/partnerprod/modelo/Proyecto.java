@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@Table(name = "proyecto")
 @Entity
 public class Proyecto {
 
@@ -22,21 +23,8 @@ public class Proyecto {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    public Proyecto() {
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Proyecto proyecto)) return false;
-        return Objects.equals(id, proyecto.id) &&
-                Objects.equals(titulo, proyecto.titulo) &&
-                Objects.equals(usuario, proyecto.usuario);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, titulo, usuario);
-    }
+
 }
 

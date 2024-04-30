@@ -18,8 +18,8 @@ public class CapituloServicio {
     public List<Capitulo> obtenerCapitulosPorProyectoId(Long proyectoId) {
         return capituloRepositorio.findAllByProyectoId(proyectoId);
     }
-    public Optional<Capitulo> obtenerCapituloPorId(Long id) {
-        return capituloRepositorio.findById(id);
+    public Capitulo obtenerCapituloPorId(Long id) {
+        return capituloRepositorio.findById(id).orElse(null);
     }
 
     public void eliminarCapitulo(Long id) {

@@ -5,26 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54e4a56e-9f3b-4772-a63a-a26653d0f3be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Partnerprod/src/main/java/org/partnerprod/partnerprod/controlador/CapituloControlador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Partnerprod/src/main/java/org/partnerprod/partnerprod/modelo/Capitulo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Partnerprod/src/main/java/org/partnerprod/partnerprod/repositorio/CapituloRepositorio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Partnerprod/src/main/java/org/partnerprod/partnerprod/servicio/CapituloServicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Partnerprod/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Partnerprod/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/pipet/OneDrive/Escritorio/Backend-PartnerProd/Partnerprod/src/main/java/org/partnerprod/partnerprod/servicio"
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2fpNsiOX5xftCDOnXqfZUMz0IEP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/pipet/OneDrive/Escritorio/Backend-PartnerProd/Partnerprod/src/main/java/org/partnerprod/partnerprod/servicio&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\pipet\OneDrive\Escritorio\Backend-PartnerProd\Partnerprod\src\main\java\org\partnerprod\partnerprod\servicio" />
@@ -33,7 +39,15 @@
       <recent name="C:\Users\pipet\OneDrive\Escritorio\Backend-PartnerProd\Partnerprod\src\main\java\org\partnerprod\partnerprod\modelo" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="54e4a56e-9f3b-4772-a63a-a26653d0f3be" name="Changes" comment="" />
+      <created>1714494270981</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714494270981</updated>
+    </task>
     <servers />
   </component>
 </project>

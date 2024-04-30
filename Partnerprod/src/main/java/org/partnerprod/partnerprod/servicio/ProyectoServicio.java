@@ -18,8 +18,8 @@ public class ProyectoServicio {
         return proyectoRepositorio.save(proyecto);
     }
 
-    public Optional<Proyecto> obtenerProyectoPorId(Long id) {
-        return proyectoRepositorio.findById(id);
+    public Proyecto obtenerProyectoPorId(Long id) {
+        return proyectoRepositorio.findById(id).orElse(null);
     }
 
     public List<Proyecto> obtenerProyectosPorUsuarioId(Long usuarioId) {

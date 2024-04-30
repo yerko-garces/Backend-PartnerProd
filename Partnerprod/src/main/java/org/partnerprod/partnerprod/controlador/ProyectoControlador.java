@@ -44,6 +44,11 @@ public class ProyectoControlador {
         List<Proyecto> proyectos = proyectoServicio.obtenerProyectosPorUsuarioId(usuarioId);
         return ResponseEntity.ok(proyectos);
     }
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<Proyecto> listarProyectos(@PathVariable Long proyectoId) {
+        Proyecto proyecto = proyectoServicio.obtenerProyectoPorId(proyectoId);
+        return ResponseEntity.ok(proyecto);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Proyecto> actualizarProyecto(@PathVariable Long id, @RequestBody Proyecto proyecto) {

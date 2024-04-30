@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, Long> {
     List<Proyecto> findByUsuarioId(Long usuarioId);
+
+
 }
 
