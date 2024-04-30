@@ -1,6 +1,6 @@
-package com.example.demo.repositorio;
+package org.partnerprod.partnerprod.repositorio;
 
-import com.example.demo.modelo.Capitulo;
+import org.partnerprod.partnerprod.modelo.Capitulo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

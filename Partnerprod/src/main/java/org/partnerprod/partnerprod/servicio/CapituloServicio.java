@@ -1,8 +1,8 @@
-package com.example.demo.servicio;
+package org.partnerprod.partnerprod.servicio;
 
-import com.example.demo.modelo.Capitulo;
+import org.partnerprod.partnerprod.modelo.Capitulo;
 
-import com.example.demo.repositorio.CapituloRepositorio;
+import org.partnerprod.partnerprod.repositorio.CapituloRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

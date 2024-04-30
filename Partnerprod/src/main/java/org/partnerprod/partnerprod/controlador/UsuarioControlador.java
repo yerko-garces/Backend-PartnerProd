@@ -4,9 +4,11 @@ import org.partnerprod.partnerprod.modelo.Usuario;
 import org.partnerprod.partnerprod.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -15,27 +17,13 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @PostMapping("/")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioServicio.guardarUsuario(usuario));
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable Long id) {
-        return usuarioServicio.obtenerUsuarioPorId(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/")
-    public List<Usuario> listarUsuarios() {
-        return usuarioServicio.listarUsuarios();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
-        usuarioServicio.eliminarUsuario(id);
-        return ResponseEntity.ok().build();
+    @PostMapping("/registrar")
+    public ResponseEntity<Usuario> registrarUsuario(@RequestBody Usuario usuario) {
+        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        Usuario registrado = usuarioServicio.registrarUsuario(usuario.getNombre(), usuario.getContrasena());
+        return ResponseEntity.ok(registrado);
     }
 }
-

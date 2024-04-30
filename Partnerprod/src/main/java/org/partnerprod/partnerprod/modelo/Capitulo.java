@@ -1,4 +1,4 @@
-package com.example.demo.modelo;
+package org.partnerprod.partnerprod.modelo;
 
 import jakarta.persistence.*;
 import lombok.Getter;

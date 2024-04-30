@@ -1,9 +1,7 @@
-package com.example.demo.controlador;
+package org.partnerprod.partnerprod.controlador;
 
-
-import com.example.demo.modelo.Capitulo;
-
-import com.example.demo.servicio.CapituloServicio;
+import org.partnerprod.partnerprod.servicio.CapituloServicio;
+import org.partnerprod.partnerprod.modelo.Capitulo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
