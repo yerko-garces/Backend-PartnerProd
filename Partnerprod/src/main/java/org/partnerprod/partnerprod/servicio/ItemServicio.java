@@ -1,6 +1,7 @@
 package org.partnerprod.partnerprod.servicio;
 
 import org.partnerprod.partnerprod.modelo.BodegaVirtual;
+import org.partnerprod.partnerprod.modelo.Categoria;
 import org.partnerprod.partnerprod.repositorio.BodegaVirtualRepositorio;
 import org.partnerprod.partnerprod.modelo.Item;
 import org.partnerprod.partnerprod.repositorio.ItemRepositorio;
@@ -48,6 +49,11 @@ public class ItemServicio {
     public List<Item> obtenerItemsPorBodega(Long bodegaId) {
         return itemRepositorio.findByBodegaVirtualId(bodegaId);
     }
+
+    public List<Item> obtenerItemsPorCategoria(Categoria categoria) {
+        return itemRepositorio.findByCategoria(categoria);
+    }
+
 
     public void eliminarItem(Long id) {
         itemRepositorio.deleteById(id);
