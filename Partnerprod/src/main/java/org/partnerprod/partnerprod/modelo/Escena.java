@@ -1,5 +1,7 @@
 package org.partnerprod.partnerprod.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +22,11 @@ public class Escena {
 
     @ManyToOne
     @JoinColumn(name = "capitulo_id", nullable = false)
+    @JsonBackReference
     private Capitulo capitulo;
     @ManyToOne
     @JoinColumn(name = "item_id")
+    @JsonIgnore
     private Item item;
     @Column
     private String numeroEscena;

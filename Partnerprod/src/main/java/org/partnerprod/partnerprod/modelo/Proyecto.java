@@ -1,5 +1,7 @@
 package org.partnerprod.partnerprod.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +14,7 @@ import java.util.Objects;
 @Getter
 @Table(name = "proyecto")
 @Entity
+@JsonIgnoreProperties({"usuario"})
 public class Proyecto {
 
     @Id
@@ -26,6 +29,7 @@ public class Proyecto {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<Capitulo> capitulos;
 
 
