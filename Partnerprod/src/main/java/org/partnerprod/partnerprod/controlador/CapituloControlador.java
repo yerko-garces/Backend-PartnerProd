@@ -21,7 +21,6 @@ public class CapituloControlador {
     CapituloServicio capituloServicio;
     @Autowired
     ProyectoServicio proyectoServicio;
-
     @PostMapping("/{idProyecto}")
     public ResponseEntity<Capitulo> crearCapitulo(@PathVariable Long idProyecto, @RequestBody Capitulo capitulo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,7 +35,6 @@ public class CapituloControlador {
         Capitulo nuevoCapitulo = capituloServicio.guardarCapitulo(capitulo);
         return ResponseEntity.ok(nuevoCapitulo);
     }
-
     @GetMapping("/{proyectoId}")
     public ResponseEntity<List<Capitulo>> listarCapitulosPorProyecto(@PathVariable Long proyectoId) {
         List<Capitulo> capitulos = capituloServicio.obtenerCapitulosPorProyectoId(proyectoId);
@@ -50,7 +48,6 @@ public class CapituloControlador {
         Capitulo actualizado = capituloServicio.guardarCapitulo(capitulo);
         return ResponseEntity.ok(actualizado);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCapitulo(@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

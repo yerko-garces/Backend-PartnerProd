@@ -32,8 +32,11 @@ public class Proyecto {
     @JsonManagedReference
     private List<Capitulo> capitulos;
 
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Personaje> personajes;
 
-
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Locacion> locaciones;
 
 }
 

@@ -1,6 +1,7 @@
 package org.partnerprod.partnerprod.modelo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -31,9 +32,7 @@ public class Capitulo {
     private Proyecto proyecto;
 
     @OneToMany(mappedBy = "capitulo", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Escena> escenas;
-
-
 
 }
