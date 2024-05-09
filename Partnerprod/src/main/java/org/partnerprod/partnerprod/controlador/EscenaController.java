@@ -39,6 +39,11 @@ public class EscenaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Escena> actualizarEscena(@PathVariable Long id, @RequestBody Escena escena) {
+        Escena escenaExistente = escenaServicio.obtenerEscenaPorId(id);
+        if (escenaExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         escena.setId(id);
         Escena escenaActualizada = escenaServicio.guardarEscena(escena);
         return ResponseEntity.ok(escenaActualizada);

@@ -1,7 +1,10 @@
 package org.partnerprod.partnerprod.controlador;
 
+import com.google.gson.Gson;
 import org.partnerprod.partnerprod.modelo.Locacion;
+import org.partnerprod.partnerprod.modelo.Proyecto;
 import org.partnerprod.partnerprod.servicio.LocacionServicio;
+import org.partnerprod.partnerprod.servicio.ProyectoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +17,37 @@ import java.util.List;
 public class LocacionControlador {
     @Autowired
     private LocacionServicio locacionServicio;
-
+    @Autowired
+    private ProyectoServicio proyectoServicio;
     @PostMapping("/")
     public ResponseEntity<Locacion> crearLocacion(@RequestBody Locacion locacion) {
+        System.out.println("Entrando al método crearLocacion");
+        System.out.println("Locación recibida: " + locacion);
+        System.out.println("JSON recibido: " + new Gson().toJson(locacion));
+
+        if (locacion.getProyecto() == null || locacion.getProyecto().getId() == null) {
+            System.out.println("El id del proyecto no se ha proporcionado correctamente");
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Long proyectoId = locacion.getProyecto().getId();
+        System.out.println("Id del proyecto: " + proyectoId);
+
+        Proyecto proyecto = proyectoServicio.obtenerProyectoPorId(proyectoId);
+
+        if (proyecto == null) {
+            System.out.println("El proyecto no existe");
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        System.out.println("Proyecto obtenido: " + proyecto);
+
+        locacion.setProyecto(proyecto);
+
         Locacion nuevaLocacion = locacionServicio.guardarLocacion(locacion);
+
+        System.out.println("Locación guardada: " + nuevaLocacion);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaLocacion);
     }
 

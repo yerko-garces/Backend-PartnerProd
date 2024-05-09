@@ -1,8 +1,6 @@
 package org.partnerprod.partnerprod.modelo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -30,7 +28,6 @@ public class Escena {
     @JsonBackReference
     private Capitulo capitulo;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "escena_item",
             joinColumns = @JoinColumn(name = "escena_id"),
@@ -57,9 +54,10 @@ public class Escena {
     private List<Personaje> personajes;
 
     @Getter
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "locacion_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Locacion locacion;
 
     @PostConstruct
