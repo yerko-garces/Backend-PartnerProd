@@ -62,6 +62,11 @@ public class PersonajeControlador {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<List<Personaje>> obtenerPersonajesPorProyecto(@PathVariable Long proyectoId) {
+        List<Personaje> personajes = personajeServicio.obtenerPersonajesPorProyecto(proyectoId);
+        return ResponseEntity.ok(personajes.isEmpty() ? List.of() : personajes);
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<Personaje>> obtenerTodosLosPersonajes() {
@@ -71,7 +76,23 @@ public class PersonajeControlador {
 
     @PutMapping("/{id}")
     public ResponseEntity<Personaje> actualizarPersonaje(@PathVariable Long id, @RequestBody Personaje personaje) {
+        Personaje personajeExistente = personajeServicio.obtenerPersonajePorId(id);
+        if (personajeExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         personaje.setId(id);
+
+        if (personaje.getProyecto() == null) {
+            personaje.setProyecto(personajeExistente.getProyecto());
+        } else {
+            Proyecto proyecto = proyectoServicio.obtenerProyectoPorId(personaje.getProyecto().getId());
+            if (proyecto == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            personaje.setProyecto(proyecto);
+        }
+
         Personaje personajeActualizado = personajeServicio.guardarPersonaje(personaje);
         return ResponseEntity.ok(personajeActualizado);
     }

@@ -27,4 +27,8 @@ public class PersonajeServicio {
     public void eliminarPersonaje(Long id) {
         personajeRepositorio.deleteById(id);
     }
+
+    public List<Personaje> obtenerPersonajesPorProyecto(Long proyectoId) {
+        return personajeRepositorio.findByProyectoId(proyectoId);
+    }
 }

@@ -41,12 +41,16 @@ public class CapituloControlador {
         return ResponseEntity.ok(capitulos);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Capitulo> actualizarCapitulo(@PathVariable Long id, @RequestBody Capitulo capitulo) {
-        capitulo.setId(id);
-        Proyecto proyecto = capituloServicio.obtenerCapituloPorId(id).getProyecto();
-        capitulo.setProyecto(proyecto);
-        Capitulo actualizado = capituloServicio.guardarCapitulo(capitulo);
-        return ResponseEntity.ok(actualizado);
+    public ResponseEntity<Capitulo> actualizarCapitulo(@PathVariable Long id, @RequestBody Capitulo capituloActualizado) {
+        Capitulo capituloExistente = capituloServicio.obtenerCapituloPorId(id);
+        if (capituloExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        capituloExistente.setNombre_capitulo(capituloActualizado.getNombre_capitulo());
+        Capitulo capituloActualizadoResult = capituloServicio.guardarCapitulo(capituloExistente);
+
+        return ResponseEntity.ok(capituloActualizadoResult);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarCapitulo(@PathVariable Long id) {

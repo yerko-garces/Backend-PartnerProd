@@ -27,4 +27,8 @@ public class LocacionServicio {
     public void eliminarLocacion(Long id) {
         locacionRepositorio.deleteById(id);
     }
+
+    public List<Locacion> obtenerLocacionesPorProyecto(Long proyectoId) {
+        return locacionRepositorio.findByProyectoId(proyectoId);
+    }
 }

@@ -37,6 +37,19 @@ public class ProyectoControlador {
         Proyecto nuevoProyecto = proyectoServicio.guardarProyecto(proyecto);
         return ResponseEntity.ok(nuevoProyecto);
     }
+    @GetMapping("/usuario-id")
+    public ResponseEntity<Long> obtenerUsuarioId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String nombreUsuario = authentication.getName();
+        Usuario usuario = usuarioServicio.obtenerUsuarioPorNombre(nombreUsuario);
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(usuario.getId());
+    }
 
 
     @GetMapping("/{usuarioId}")
@@ -51,14 +64,20 @@ public class ProyectoControlador {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Proyecto> actualizarProyecto(@PathVariable Long id, @RequestBody Proyecto proyecto) {
+    public ResponseEntity<Proyecto> actualizarProyecto(@PathVariable Long id, @RequestBody Proyecto proyectoActualizado) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String nombreUsuario = authentication.getName();
         Usuario usuario = usuarioServicio.obtenerUsuarioPorNombre(nombreUsuario);
-        proyecto.setUsuario(usuario);
-        proyecto.setId(id);
-        Proyecto actualizado = proyectoServicio.guardarProyecto(proyecto);
-        return ResponseEntity.ok(actualizado);
+
+        Proyecto proyectoExistente = proyectoServicio.obtenerProyectoPorId(id);
+        if (proyectoExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        proyectoExistente.setTitulo(proyectoActualizado.getTitulo());
+        Proyecto proyectoActualizadoResult = proyectoServicio.guardarProyecto(proyectoExistente);
+
+        return ResponseEntity.ok(proyectoActualizadoResult);
     }
 
     @DeleteMapping("/{id}")

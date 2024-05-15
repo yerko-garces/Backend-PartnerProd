@@ -17,8 +17,10 @@ import java.util.List;
 public class LocacionControlador {
     @Autowired
     private LocacionServicio locacionServicio;
+
     @Autowired
     private ProyectoServicio proyectoServicio;
+
     @PostMapping("/")
     public ResponseEntity<Locacion> crearLocacion(@RequestBody Locacion locacion) {
         System.out.println("Entrando al método crearLocacion");
@@ -61,6 +63,12 @@ public class LocacionControlador {
         }
     }
 
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<List<Locacion>> obtenerLocacionesPorProyecto(@PathVariable Long proyectoId) {
+        List<Locacion> locaciones = locacionServicio.obtenerLocacionesPorProyecto(proyectoId);
+        return ResponseEntity.ok(locaciones.isEmpty() ? List.of() : locaciones);
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Locacion>> obtenerTodasLasLocaciones() {
         List<Locacion> locaciones = locacionServicio.obtenerTodasLasLocaciones();
@@ -69,7 +77,23 @@ public class LocacionControlador {
 
     @PutMapping("/{id}")
     public ResponseEntity<Locacion> actualizarLocacion(@PathVariable Long id, @RequestBody Locacion locacion) {
+        Locacion locacionExistente = locacionServicio.obtenerLocacionPorId(id);
+        if (locacionExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         locacion.setId(id);
+
+        if (locacion.getProyecto() == null) {
+            locacion.setProyecto(locacionExistente.getProyecto());
+        } else {
+            Proyecto proyecto = proyectoServicio.obtenerProyectoPorId(locacion.getProyecto().getId());
+            if (proyecto == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            locacion.setProyecto(proyecto);
+        }
+
         Locacion locacionActualizada = locacionServicio.guardarLocacion(locacion);
         return ResponseEntity.ok(locacionActualizada);
     }
