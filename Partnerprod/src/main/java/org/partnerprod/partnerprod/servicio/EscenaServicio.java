@@ -103,6 +103,19 @@ public class EscenaServicio {
     }
 
     public void eliminarEscena(Long id) {
-        escenaRepositorio.deleteById(id);
+        Escena escenaExistente = escenaRepositorio.findById(id).orElse(null);
+        if (escenaExistente != null) {
+            if (escenaExistente.getItems() != null) {
+                List<Item> items = escenaExistente.getItems();
+                for (Item item : items) {
+                    Item itemExistente = itemRepositorio.findById(item.getId()).orElse(null);
+                    if (itemExistente != null) {
+                        itemExistente.setCantidad(itemExistente.getCantidad() + 1);
+                        itemRepositorio.save(itemExistente);
+                    }
+                }
+            }
+            escenaRepositorio.deleteById(id);
+        }
     }
 }
