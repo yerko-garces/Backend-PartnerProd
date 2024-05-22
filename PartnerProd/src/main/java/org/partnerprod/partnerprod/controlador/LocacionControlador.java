@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/locaciones")
+@CrossOrigin(origins = "http://localhost:3000")
 public class LocacionControlador {
     @Autowired
     private LocacionServicio locacionServicio;

@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/capitulos")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CapituloControlador {
     @Autowired
     CapituloServicio capituloServicio;
