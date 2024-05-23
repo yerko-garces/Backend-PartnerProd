@@ -56,6 +56,9 @@ public class ItemServicio {
 
 
     public void eliminarItem(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("El ID del item no puede ser nulo.");
+        }
         itemRepositorio.deleteById(id);
     }
 }
