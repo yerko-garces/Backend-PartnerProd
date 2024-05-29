@@ -55,4 +55,10 @@ public class EscenaController {
         escenaServicio.eliminarEscena(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<List<Escena>> listarEscenasPorProyecto(@PathVariable Long proyectoId) {
+        List<Escena> escenas = escenaServicio.obtenerEscenasPorProyectoId(proyectoId);
+        return ResponseEntity.ok(escenas);
+    }
 }

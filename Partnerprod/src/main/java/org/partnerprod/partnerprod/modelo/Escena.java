@@ -1,13 +1,13 @@
 package org.partnerprod.partnerprod.modelo;
 
 import com.fasterxml.jackson.annotation.*;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "escenas")
@@ -27,12 +27,6 @@ public class Escena {
     @JoinColumn(name = "capitulo_id", nullable = false)
     @JsonBackReference
     private Capitulo capitulo;
-
-    @ManyToMany
-    @JoinTable(name = "escena_item",
-            joinColumns = @JoinColumn(name = "escena_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
-    private List<Item> items;
 
     @Column
     private String numeroEscena;
@@ -59,10 +53,4 @@ public class Escena {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Locacion locacion;
-
-    @PostConstruct
-    private void init() {
-        items = new ArrayList<>();
-        personajes = new ArrayList<>();
-    }
 }

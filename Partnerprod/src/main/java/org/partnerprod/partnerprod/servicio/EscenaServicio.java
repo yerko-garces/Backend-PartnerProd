@@ -14,9 +14,6 @@ public class EscenaServicio {
     private EscenaRepositorio escenaRepositorio;
 
     @Autowired
-    private ItemRepositorio itemRepositorio;
-
-    @Autowired
     private PersonajeRepositorio personajeRepositorio;
 
     @Autowired
@@ -26,34 +23,6 @@ public class EscenaServicio {
     private CapituloRepositorio capituloRepositorio;
 
     public Escena guardarEscena(Escena escena) {
-        Escena escenaExistente = null;
-        if (escena.getId() != null) {
-            escenaExistente = escenaRepositorio.findById(escena.getId()).orElse(null);
-        }
-
-        if (escenaExistente != null && escenaExistente.getItems() != null) {
-            List<Item> itemsEliminados = new ArrayList<>(escenaExistente.getItems());
-            itemsEliminados.removeAll(escena.getItems());
-            for (Item item : itemsEliminados) {
-                Item itemExistente = itemRepositorio.findById(item.getId()).orElse(null);
-                if (itemExistente != null) {
-                    itemExistente.setCantidad(itemExistente.getCantidad() + 1);
-                    itemRepositorio.save(itemExistente);
-                }
-            }
-        }
-
-        if (escena.getItems() != null) {
-            List<Item> items = escena.getItems();
-            for (Item item : items) {
-                Item itemExistente = itemRepositorio.findById(item.getId()).orElse(null);
-                if (itemExistente != null) {
-                    itemExistente.setCantidad(itemExistente.getCantidad() - 1);
-                    itemRepositorio.save(itemExistente);
-                }
-            }
-        }
-
         Proyecto proyectoEscena = null;
         if (escena.getCapitulo() != null) {
             Capitulo capitulo = capituloRepositorio.findById(escena.getCapitulo().getId()).orElse(null);
@@ -103,19 +72,10 @@ public class EscenaServicio {
     }
 
     public void eliminarEscena(Long id) {
-        Escena escenaExistente = escenaRepositorio.findById(id).orElse(null);
-        if (escenaExistente != null) {
-            if (escenaExistente.getItems() != null) {
-                List<Item> items = escenaExistente.getItems();
-                for (Item item : items) {
-                    Item itemExistente = itemRepositorio.findById(item.getId()).orElse(null);
-                    if (itemExistente != null) {
-                        itemExistente.setCantidad(itemExistente.getCantidad() + 1);
-                        itemRepositorio.save(itemExistente);
-                    }
-                }
-            }
-            escenaRepositorio.deleteById(id);
-        }
+        escenaRepositorio.deleteById(id);
+    }
+
+    public List<Escena> obtenerEscenasPorProyectoId(Long proyectoId) {
+        return escenaRepositorio.findByCapituloProyectoId(proyectoId);
     }
 }
