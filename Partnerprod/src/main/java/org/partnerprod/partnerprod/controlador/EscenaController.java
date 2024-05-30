@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/escenas")
@@ -57,8 +58,8 @@ public class EscenaController {
     }
 
     @GetMapping("/proyecto/{proyectoId}")
-    public ResponseEntity<List<Escena>> listarEscenasPorProyecto(@PathVariable Long proyectoId) {
-        List<Escena> escenas = escenaServicio.obtenerEscenasPorProyectoId(proyectoId);
-        return ResponseEntity.ok(escenas);
+    public ResponseEntity<List<Map<String, Object>>> listarEscenasPorProyecto(@PathVariable Long proyectoId) {
+        List<Map<String, Object>> escenasConCapitulo = escenaServicio.obtenerEscenasPorProyectoId(proyectoId);
+        return ResponseEntity.ok(escenasConCapitulo);
     }
 }

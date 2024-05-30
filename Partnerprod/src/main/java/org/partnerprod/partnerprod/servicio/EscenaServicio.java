@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EscenaServicio {
@@ -75,7 +77,17 @@ public class EscenaServicio {
         escenaRepositorio.deleteById(id);
     }
 
-    public List<Escena> obtenerEscenasPorProyectoId(Long proyectoId) {
-        return escenaRepositorio.findByCapituloProyectoId(proyectoId);
+    public List<Map<String, Object>> obtenerEscenasPorProyectoId(Long proyectoId) {
+        List<Escena> escenas = escenaRepositorio.findByCapituloProyectoId(proyectoId);
+        List<Map<String, Object>> escenasConCapitulo = new ArrayList<>();
+
+        for (Escena escena : escenas) {
+            Map<String, Object> escenaConCapitulo = new HashMap<>();
+            escenaConCapitulo.put("escena", escena);
+            escenaConCapitulo.put("capituloId", escena.getCapitulo().getId());
+            escenasConCapitulo.add(escenaConCapitulo);
+        }
+
+        return escenasConCapitulo;
     }
 }

@@ -19,7 +19,7 @@ public class BodegaVirtual {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
+    @JsonBackReference(value = "usuarioBodegaVirtual")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "bodegaVirtual")
