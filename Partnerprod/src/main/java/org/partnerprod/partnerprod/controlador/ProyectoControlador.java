@@ -1,9 +1,11 @@
 package org.partnerprod.partnerprod.controlador;
 
+import org.partnerprod.partnerprod.modelo.PlanDeRodaje;
 import org.partnerprod.partnerprod.modelo.Proyecto;
 import org.partnerprod.partnerprod.modelo.Usuario;
 import org.partnerprod.partnerprod.servicio.ProyectoServicio;
 import org.partnerprod.partnerprod.servicio.UsuarioServicio;
+import org.partnerprod.partnerprod.servicio.PlanDeRodajeServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class ProyectoControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+    @Autowired
+    private PlanDeRodajeServicio planDeRodajeServicio;
+
     @PostMapping("/")
     public ResponseEntity<Proyecto> crearProyecto(@RequestBody Proyecto proyecto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,6 +41,13 @@ public class ProyectoControlador {
         }
         proyecto.setUsuario(usuario);
         Proyecto nuevoProyecto = proyectoServicio.guardarProyecto(proyecto);
+
+        // Crear un nuevo plan de rodaje asociado al proyecto y al usuario
+        PlanDeRodaje nuevoPlanDeRodaje = new PlanDeRodaje();
+        nuevoPlanDeRodaje.setProyecto(nuevoProyecto);
+        nuevoPlanDeRodaje.setUsuario(usuario);
+        planDeRodajeServicio.crearPlanDeRodaje(nuevoProyecto.getId(), nuevoPlanDeRodaje);
+
         return ResponseEntity.ok(nuevoProyecto);
     }
     @GetMapping("/usuario-id")
