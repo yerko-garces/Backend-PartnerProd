@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/bloques")
 public class BloqueController {
@@ -37,6 +39,12 @@ public class BloqueController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/actualizar")
+    public ResponseEntity<List<Bloque>> actualizarBloques(@RequestBody List<Bloque> bloques) {
+        List<Bloque> bloquesActualizados = bloqueServicio.actualizarBloques(bloques);
+        return ResponseEntity.ok(bloquesActualizados);
     }
 
     @DeleteMapping("/{id}")

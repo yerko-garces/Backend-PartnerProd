@@ -42,7 +42,6 @@ public class ProyectoControlador {
         proyecto.setUsuario(usuario);
         Proyecto nuevoProyecto = proyectoServicio.guardarProyecto(proyecto);
 
-        // Crear un nuevo plan de rodaje asociado al proyecto y al usuario
         PlanDeRodaje nuevoPlanDeRodaje = new PlanDeRodaje();
         nuevoPlanDeRodaje.setProyecto(nuevoProyecto);
         nuevoPlanDeRodaje.setUsuario(usuario);
