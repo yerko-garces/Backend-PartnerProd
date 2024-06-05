@@ -1,5 +1,6 @@
 package org.partnerprod.partnerprod.controlador;
 
+import org.partnerprod.partnerprod.modelo.Bloque;
 import org.partnerprod.partnerprod.modelo.PlanDeRodaje;
 import org.partnerprod.partnerprod.modelo.Usuario;
 import org.partnerprod.partnerprod.servicio.PlanDeRodajeServicio;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/planes-de-rodaje")
@@ -34,6 +37,12 @@ public class PlanDeRodajeController {
         planDeRodaje.setUsuario(usuario);
         PlanDeRodaje nuevoPlanDeRodaje = planDeRodajeServicio.crearPlanDeRodaje(proyectoId, planDeRodaje);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPlanDeRodaje);
+    }
+
+    @GetMapping("/{planDeRodajeId}/bloques")
+    public ResponseEntity<List<Bloque>> obtenerBloquesPorPlanDeRodaje(@PathVariable Long planDeRodajeId) {
+        List<Bloque> bloques = planDeRodajeServicio.obtenerBloquesPorPlanDeRodajeId(planDeRodajeId);
+        return ResponseEntity.ok(bloques);
     }
 
     @DeleteMapping("/{id}")
