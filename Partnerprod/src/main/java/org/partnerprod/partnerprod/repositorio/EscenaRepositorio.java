@@ -10,4 +10,5 @@ import java.util.List;
 public interface EscenaRepositorio extends JpaRepository<Escena, Long> {
     List<Escena> findAllByCapituloId(Long capituloId);
     List<Escena> findByCapituloProyectoId(Long proyectoId);
+
 }

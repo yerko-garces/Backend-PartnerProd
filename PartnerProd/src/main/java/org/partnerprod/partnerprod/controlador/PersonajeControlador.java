@@ -26,7 +26,7 @@ public class PersonajeControlador {
     public ResponseEntity<Personaje> crearPersonaje(@RequestBody Personaje personaje) {
         System.out.println("Entrando al método crearPersonaje");
         System.out.println("Personaje recibido: " + personaje);
-        System.out.println("JSON recibido: " + new Gson().toJson(personaje));
+
 
         if (personaje.getProyecto() == null || personaje.getProyecto().getId() == null) {
             System.out.println("El id del proyecto no se ha proporcionado correctamente");

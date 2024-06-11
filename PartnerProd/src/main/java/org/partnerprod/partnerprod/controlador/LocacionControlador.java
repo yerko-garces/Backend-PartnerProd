@@ -26,7 +26,7 @@ public class LocacionControlador {
     public ResponseEntity<Locacion> crearLocacion(@RequestBody Locacion locacion) {
         System.out.println("Entrando al método crearLocacion");
         System.out.println("Locación recibida: " + locacion);
-        System.out.println("JSON recibido: " + new Gson().toJson(locacion));
+
 
         if (locacion.getProyecto() == null || locacion.getProyecto().getId() == null) {
             System.out.println("El id del proyecto no se ha proporcionado correctamente");

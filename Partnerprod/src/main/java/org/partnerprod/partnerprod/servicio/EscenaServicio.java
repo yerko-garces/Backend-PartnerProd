@@ -69,9 +69,12 @@ public class EscenaServicio {
         return escenaRepositorio.findAllByCapituloId(capituloId);
     }
 
+
+
     public Escena obtenerEscenaPorId(Long id) {
         return escenaRepositorio.findById(id).orElse(null);
     }
+
 
     public void eliminarEscena(Long id) {
         escenaRepositorio.deleteById(id);
@@ -87,7 +90,6 @@ public class EscenaServicio {
             escenaConCapitulo.put("capituloId", escena.getCapitulo().getId());
             escenasConCapitulo.add(escenaConCapitulo);
         }
-
         return escenasConCapitulo;
     }
 }

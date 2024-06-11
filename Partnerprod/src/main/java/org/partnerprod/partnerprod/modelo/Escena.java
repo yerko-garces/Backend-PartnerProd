@@ -35,10 +35,10 @@ public class Escena {
     private String resumen;
 
     @Enumerated(EnumType.STRING)
-    private interior_exterior interior_exterior;
+    private interior_exterior interiorExterior;
 
     @Enumerated(EnumType.STRING)
-    private dia_noche dia_noche;
+    private dia_noche diaNoche;
 
     @Getter
     @ManyToMany
