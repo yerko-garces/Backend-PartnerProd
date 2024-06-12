@@ -25,7 +25,9 @@ public class Escena {
 
     @ManyToOne
     @JoinColumn(name = "capitulo_id", nullable = false)
-    @JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+
     private Capitulo capitulo;
 
     @Column
