@@ -41,5 +41,9 @@ public class Proyecto {
     @JsonIdentityReference(alwaysAsId = true)
     private List<Locacion> locaciones;
 
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<PlanDeRodaje> planesDeRodaje = new ArrayList<>();
+
 }
 
