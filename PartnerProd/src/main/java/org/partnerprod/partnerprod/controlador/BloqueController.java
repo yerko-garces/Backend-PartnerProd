@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/bloques")
+@CrossOrigin
 public class BloqueController {
     @Autowired
     private BloqueServicio bloqueServicio;
