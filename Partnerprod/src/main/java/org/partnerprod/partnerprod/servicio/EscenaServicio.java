@@ -1,5 +1,6 @@
 package org.partnerprod.partnerprod.servicio;
 
+import org.hibernate.Hibernate;
 import org.partnerprod.partnerprod.modelo.*;
 import org.partnerprod.partnerprod.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +67,13 @@ public class EscenaServicio {
     }
 
     public List<Escena> obtenerEscenasPorCapituloId(Long capituloId) {
-        return escenaRepositorio.findAllByCapituloId(capituloId);
+        List<Escena> escenas = escenaRepositorio.findAllByCapituloId(capituloId);
+        for (Escena escena : escenas) {
+            Hibernate.initialize(escena.getPersonajes());
+            Hibernate.initialize(escena.getLocacion());
+        }
+        return escenas;
     }
-
 
 
     public Escena obtenerEscenaPorId(Long id) {
