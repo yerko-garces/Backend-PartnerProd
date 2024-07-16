@@ -12,6 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface BloqueItemRepositorio extends JpaRepository<BloqueItem, Long> {
+    List<BloqueItem> findByBloqueId(Long bloqueId);
+    void deleteByBloqueId(Long bloqueId);
     List<BloqueItem> findByBloque_Fecha(LocalDate fecha);
     void deleteByBloque_Fecha(LocalDate fecha);
     Optional<BloqueItem> findByBloqueAndItem(Bloque bloque, Item item);

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface BloqueRepositorio extends JpaRepository<Bloque, Long> {
-    List<Bloque> findByFecha(LocalDate fecha);
+    List<Bloque> findByPlanDeRodajeId(Long planDeRodajeId);
 
     @Query("SELECT DISTINCT b FROM Bloque b LEFT JOIN FETCH b.items WHERE b.fecha = :fecha")
     List<Bloque> findByFechaWithItems(@Param("fecha") LocalDate fecha);
