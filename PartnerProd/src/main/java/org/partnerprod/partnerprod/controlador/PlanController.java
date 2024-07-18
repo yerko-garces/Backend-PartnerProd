@@ -1,31 +1,27 @@
 package org.partnerprod.partnerprod.controlador;
-
 import org.partnerprod.partnerprod.modelo.Plan;
 import org.partnerprod.partnerprod.servicio.EscenaServicio;
 import org.partnerprod.partnerprod.servicio.PlanServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/planes")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PlanController {
     @Autowired
     private PlanServicio planServicio;
-
     @Autowired
     private EscenaServicio escenaServicio;
-
     @PostMapping("/")
     public ResponseEntity<Plan> crearPlan(@RequestBody Plan plan) {
         Plan nuevoPlan = planServicio.guardarPlan(plan);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPlan);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Plan> obtenerPlanPorId(@PathVariable Long id) {
         Plan plan = planServicio.obtenerPlanPorId(id);
@@ -35,31 +31,28 @@ public class PlanController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @GetMapping("/")
-    public ResponseEntity<List<Plan>> listarTodosLosPlanes() {
-        List<Plan> planes = planServicio.obtenerTodosLosPlanes();
+    @GetMapping("/proyecto/{proyectoId}")
+    public ResponseEntity<List<Plan>> listarPlanesPorProyecto(@PathVariable Long
+                                                                      proyectoId) {
+        List<Plan> planes = planServicio.obtenerPlanesPorProyecto(proyectoId);
         return ResponseEntity.ok(planes);
     }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Plan> actualizarPlan(@PathVariable Long id, @RequestBody Plan plan) {
+    public ResponseEntity<Plan> actualizarPlan(@PathVariable Long id, @RequestBody
+    Plan plan) {
         Plan planExistente = planServicio.obtenerPlanPorId(id);
         if (planExistente == null) {
             return ResponseEntity.notFound().build();
         }
-
         plan.setId(id);
         Plan planActualizado = planServicio.guardarPlan(plan);
         return ResponseEntity.ok(planActualizado);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPlan(@PathVariable Long id) {
         planServicio.eliminarPlan(id);
         return ResponseEntity.noContent().build();
     }
-
     @PutMapping("/{planId}/{escenaId}")
     public ResponseEntity<?> agregarEscenaAPlan(
             @PathVariable Long planId,
@@ -67,5 +60,13 @@ public class PlanController {
     ) {
         escenaServicio.agregarEscenaAPlan(planId, escenaId);
         return ResponseEntity.ok().build(); // Respuesta 200 OK
+    }
+    @PutMapping("/{planId}/escenas")
+    public ResponseEntity<?> agregarEscenasAPlan(
+            @PathVariable Long planId,
+            @RequestBody List<Long> escenaIds // Lista de IDs de escenas
+    ) {
+        escenaServicio.agregarEscenasAPlan(planId, escenaIds);
+        return ResponseEntity.ok().build();
     }
 }

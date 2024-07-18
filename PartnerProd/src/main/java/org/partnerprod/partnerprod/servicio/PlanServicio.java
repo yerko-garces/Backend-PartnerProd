@@ -34,5 +34,8 @@ public class PlanServicio {
         planRepositorio.deleteById(id);
     }
 
+    public List<Plan> obtenerPlanesPorProyecto(Long proyectoId) {
+        return planRepositorio.findByProyectoId(proyectoId);
+    }
 
 }

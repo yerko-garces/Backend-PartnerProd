@@ -6,10 +6,7 @@ import org.partnerprod.partnerprod.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EscenaServicio {
@@ -24,6 +21,9 @@ public class EscenaServicio {
 
     @Autowired
     private CapituloRepositorio capituloRepositorio;
+
+    @Autowired
+    private PlanRepositorio planRepositorio;
 
     public Escena guardarEscena(Escena escena) {
         Proyecto proyectoEscena = null;
@@ -96,5 +96,25 @@ public class EscenaServicio {
             escenasConCapitulo.add(escenaConCapitulo);
         }
         return escenasConCapitulo;
+    }
+
+    public void agregarEscenaAPlan(Long planId, Long escenaId) {
+        Optional<Plan> planOptional = planRepositorio.findById(planId);
+        Optional<Escena> escenaOptional = escenaRepositorio.findById(escenaId);
+
+        if (planOptional.isPresent() && escenaOptional.isPresent()) {
+            Plan plan = planOptional.get();
+            Escena escena = escenaOptional.get();
+            plan.getEscenas().add(escena);
+            planRepositorio.save(plan);
+        } else {
+            // Manejar el caso donde el plan o la escena no existen (lanzar excepción, etc.)
+        }
+    }
+
+    public void agregarEscenasAPlan(Long planId, List<Long> escenaIds) {
+        for (Long escenaId : escenaIds) {
+            agregarEscenaAPlan(planId, escenaId); // Llamada al método existente
+        }
     }
 }
