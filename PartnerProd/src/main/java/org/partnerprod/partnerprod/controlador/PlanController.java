@@ -1,6 +1,7 @@
 package org.partnerprod.partnerprod.controlador;
 
 import org.partnerprod.partnerprod.modelo.Plan;
+import org.partnerprod.partnerprod.servicio.EscenaServicio;
 import org.partnerprod.partnerprod.servicio.PlanServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,9 @@ import java.util.List;
 public class PlanController {
     @Autowired
     private PlanServicio planServicio;
+
+    @Autowired
+    private EscenaServicio escenaServicio;
 
     @PostMapping("/")
     public ResponseEntity<Plan> crearPlan(@RequestBody Plan plan) {
@@ -54,5 +58,14 @@ public class PlanController {
     public ResponseEntity<Void> eliminarPlan(@PathVariable Long id) {
         planServicio.eliminarPlan(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{planId}/{escenaId}")
+    public ResponseEntity<?> agregarEscenaAPlan(
+            @PathVariable Long planId,
+            @PathVariable Long escenaId
+    ) {
+        escenaServicio.agregarEscenaAPlan(planId, escenaId);
+        return ResponseEntity.ok().build(); // Respuesta 200 OK
     }
 }
