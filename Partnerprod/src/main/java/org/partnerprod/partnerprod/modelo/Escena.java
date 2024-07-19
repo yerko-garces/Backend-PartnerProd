@@ -55,4 +55,8 @@ public class Escena {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = false)
     private Locacion locacion;
+
+    @OneToMany(mappedBy = "escena")
+    @JsonIgnore
+    private List<PlanEscenaEtiqueta> planEscenaEtiquetas;
 }

@@ -1,4 +1,5 @@
 package org.partnerprod.partnerprod.modelo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,8 +30,13 @@ public class Plan {
             inverseJoinColumns = @JoinColumn(name = "escena_id")
     )
     private List<Escena> escenas;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "proyecto_id")
+    @JsonIgnore
     private Proyecto proyecto;
-// La lista de etiquetas e items se implementará más adelante
+
+    @OneToMany(mappedBy = "plan")
+    private List<PlanEscenaEtiqueta> planEscenaEtiquetas;
+
 }

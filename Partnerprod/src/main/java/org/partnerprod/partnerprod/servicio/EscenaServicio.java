@@ -6,6 +6,7 @@ import org.partnerprod.partnerprod.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -20,10 +21,16 @@ public class EscenaServicio {
     private LocacionRepositorio locacionRepositorio;
 
     @Autowired
+    private PlanEscenaEtiquetaRepositorio planEscenaEtiquetaRepositorio;
+
+    @Autowired
     private CapituloRepositorio capituloRepositorio;
 
     @Autowired
     private PlanRepositorio planRepositorio;
+
+    @Autowired
+    private EtiquetaRepositorio etiquetaRepositorio;
 
     public Escena guardarEscena(Escena escena) {
         Proyecto proyectoEscena = null;
@@ -98,23 +105,93 @@ public class EscenaServicio {
         return escenasConCapitulo;
     }
 
-    public void agregarEscenaAPlan(Long planId, Long escenaId) {
+    public void agregarEscenaAPlan(Long planId, Long escenaId, LocalTime hora, Integer posicion) {
         Optional<Plan> planOptional = planRepositorio.findById(planId);
         Optional<Escena> escenaOptional = escenaRepositorio.findById(escenaId);
 
         if (planOptional.isPresent() && escenaOptional.isPresent()) {
             Plan plan = planOptional.get();
             Escena escena = escenaOptional.get();
-            plan.getEscenas().add(escena);
-            planRepositorio.save(plan);
+
+            PlanEscenaEtiqueta planEscenaEtiqueta = new PlanEscenaEtiqueta();
+            planEscenaEtiqueta.setPlan(plan);
+            planEscenaEtiqueta.setEscena(escena);
+            planEscenaEtiqueta.setHora(hora);
+            planEscenaEtiqueta.setPosicion(posicion);
+
+            planEscenaEtiquetaRepositorio.save(planEscenaEtiqueta);
         } else {
             // Manejar el caso donde el plan o la escena no existen (lanzar excepción, etc.)
         }
     }
 
-    public void agregarEscenasAPlan(Long planId, List<Long> escenaIds) {
-        for (Long escenaId : escenaIds) {
-            agregarEscenaAPlan(planId, escenaId); // Llamada al método existente
+    public void agregarEscenasAPlan(Long planId, List<EscenaPosicion> escenaPosiciones) {
+        for (EscenaPosicion escenaPosicion : escenaPosiciones) {
+            agregarEscenaAPlan(planId, escenaPosicion.getEscenaId(), escenaPosicion.getHora(), escenaPosicion.getPosicion());
         }
     }
+
+    public void agregarEtiquetaAPlan(Long planId, String nombreEtiqueta, Integer posicion) {
+        Optional<Plan> planOptional = planRepositorio.findById(planId);
+
+        if (planOptional.isPresent()) {
+            Plan plan = planOptional.get();
+
+            Etiqueta etiqueta = etiquetaRepositorio.findByNombre(nombreEtiqueta);
+            if (etiqueta == null) {
+                etiqueta = new Etiqueta();
+                etiqueta.setNombre(nombreEtiqueta);
+                etiquetaRepositorio.save(etiqueta);
+            }
+
+            PlanEscenaEtiqueta planEscenaEtiqueta = new PlanEscenaEtiqueta();
+            planEscenaEtiqueta.setPlan(plan);
+            planEscenaEtiqueta.setEtiqueta(etiqueta);
+            planEscenaEtiqueta.setPosicion(posicion);
+
+            planEscenaEtiquetaRepositorio.save(planEscenaEtiqueta);
+        } else {
+            // Manejar el caso donde el plan no existe (lanzar excepción, etc.)
+        }
+    }
+
+    public void actualizarElementosDePlan(Long planId, List<PlanEscenaEtiqueta> elementos) {
+        Optional<Plan> planOptional = planRepositorio.findById(planId);
+
+        if (planOptional.isPresent()) {
+            Plan plan = planOptional.get();
+
+            // Eliminar las relaciones existentes que no estén en la lista de elementos
+            List<PlanEscenaEtiqueta> elementosExistentes = planEscenaEtiquetaRepositorio.findByPlanId(planId);
+            for (PlanEscenaEtiqueta elemento : elementosExistentes) {
+                if (!elementos.contains(elemento)) {
+                    planEscenaEtiquetaRepositorio.delete(elemento);
+                }
+            }
+
+            // Agregar o actualizar los elementos
+            for (PlanEscenaEtiqueta elemento : elementos) {
+                if (elemento.getEscena() != null) {
+                    Escena escena = escenaRepositorio.findById(elemento.getEscena().getId()).orElse(null);
+                    if (escena != null) {
+                        elemento.setEscena(escena);
+                    }
+                } else if (elemento.getEtiqueta() != null) {
+                    Etiqueta etiqueta = etiquetaRepositorio.findByNombre(elemento.getEtiqueta().getNombre());
+                    if (etiqueta == null) {
+                        etiqueta = new Etiqueta();
+                        etiqueta.setNombre(elemento.getEtiqueta().getNombre());
+                        etiquetaRepositorio.save(etiqueta);
+                    }
+                    elemento.setEtiqueta(etiqueta);
+                }
+                elemento.setPlan(plan);
+                planEscenaEtiquetaRepositorio.save(elemento);
+            }
+        } else {
+            // Manejar el caso donde el plan no existe (lanzar excepción, etc.)
+        }
+    }
+
+
 }
