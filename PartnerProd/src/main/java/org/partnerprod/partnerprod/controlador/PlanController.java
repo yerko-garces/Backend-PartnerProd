@@ -58,8 +58,12 @@ public class PlanController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPlan(@PathVariable Long id) {
-        planServicio.eliminarPlan(id);
-        return ResponseEntity.noContent().build();
+        try {
+            planServicio.eliminarPlan(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{planId}/escena/{escenaId}")

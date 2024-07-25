@@ -6,6 +6,7 @@ import org.partnerprod.partnerprod.repositorio.EscenaRepositorio;
 import org.partnerprod.partnerprod.repositorio.PlanRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +31,16 @@ public class PlanServicio {
         return planRepositorio.findAll();
     }
 
+    @Transactional
     public void eliminarPlan(Long id) {
-        planRepositorio.deleteById(id);
+        Plan plan = planRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Plan no encontrado con id: " + id));
+
+        // La eliminación en cascada se encargará de eliminar las PlanEscenaEtiqueta asociadas
+        planRepositorio.delete(plan);
     }
 
     public List<Plan> obtenerPlanesPorProyecto(Long proyectoId) {
         return planRepositorio.findByProyectoId(proyectoId);
     }
-
 }
