@@ -28,7 +28,7 @@ public class Locacion {
     private Proyecto proyecto;
 
     @OneToMany(mappedBy = "locacion", fetch = FetchType.LAZY)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private List<Escena> escenas;
 

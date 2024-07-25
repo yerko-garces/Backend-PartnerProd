@@ -52,8 +52,7 @@ public class Escena {
     @Getter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "locacion_id")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = false)
+
     private Locacion locacion;
 
     @OneToMany(mappedBy = "escena")
