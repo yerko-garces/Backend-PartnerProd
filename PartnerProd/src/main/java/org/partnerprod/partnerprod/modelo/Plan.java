@@ -45,6 +45,9 @@ public class Plan {
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlanEscenaEtiqueta> planEscenaEtiquetas;
-}
 
-/* El que lo lee es gay */
+
+
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanItem> planItems;
+}

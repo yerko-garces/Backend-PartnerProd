@@ -23,6 +23,7 @@ public class Usuario {
     @JsonManagedReference(value = "usuarioBodegaVirtual")
     private BodegaVirtual bodegaVirtual;
 
+
     @Column(nullable = false, unique = true)
     private String nombre;
 

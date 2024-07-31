@@ -23,10 +23,9 @@ public class BodegaVirtual {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "bodegaVirtual")
-    @JsonManagedReference
+    @JsonManagedReference(value = "bodegaItems")
     private List<Item> items;
 
     public BodegaVirtual() {
     }
-
 }

@@ -1,5 +1,7 @@
 package org.partnerprod.partnerprod.controlador;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.partnerprod.partnerprod.modelo.Item;
 import org.partnerprod.partnerprod.modelo.Usuario;
 import org.partnerprod.partnerprod.servicio.ItemServicio;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/items")
@@ -42,10 +45,33 @@ public class ItemControlador {
     }
 
     @GetMapping("/bodega/{bodegaId}")
-    public ResponseEntity<List<Item>> listarItemsPorBodega(@PathVariable Long bodegaId) {
+    public ResponseEntity<List<ItemDTO>> listarItemsPorBodega(@PathVariable Long bodegaId) {
         List<Item> items = itemServicio.obtenerItemsPorBodega(bodegaId);
-        return ResponseEntity.ok(items);
+        List<ItemDTO> itemDTOs = items.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(itemDTOs);
     }
+
+    private ItemDTO convertToDTO(Item item) {
+        ItemDTO dto = new ItemDTO();
+        dto.setId(item.getId());
+        dto.setNombre(item.getNombre());
+        dto.setCantidad(item.getCantidad());
+        dto.setCategoria(item.getCategoria());
+        return dto;
+    }
+
+@Getter
+@Setter
+class ItemDTO {
+    private Long id;
+    private String nombre;
+    private int cantidad;
+    private String categoria;
+
+    // Getters and setters
+}
 
     @PutMapping("/{id}")
     public ResponseEntity<Item> actualizarItem(@PathVariable Long id, @RequestBody Item item) {
